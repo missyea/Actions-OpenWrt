@@ -80,7 +80,6 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        make defconfig
 
     - name: SSH connection to Actions
       uses: mxschmitt/action-tmate@v3
