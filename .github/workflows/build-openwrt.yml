@@ -34,8 +34,11 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
     - name: Check Server Performance
       run: |
         echo "警告⚠"
@@ -90,9 +93,6 @@ jobs:
         mkdir $GITHUB_WORKSPACE/tmp && chmod 777 $GITHUB_WORKSPACE/tmp
         sudo cp -rp /tmp/* $GITHUB_WORKSPACE/tmp
         sudo mount -B $GITHUB_WORKSPACE/tmp /tmp && df -hT
-
-    - name: Checkout
-      uses: actions/checkout@main
 
     - name: Clone source code
       working-directory: /workdir
