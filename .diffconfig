@@ -1,4 +1,24 @@
 CONFIG_TARGET_x86=y
 CONFIG_TARGET_x86_64=y
 CONFIG_TARGET_x86_64_DEVICE_generic=y
-CONFIG_GRUB_IMAGES=y
+# CONFIG_GRUB_IMAGES is not set
+CONFIG_GRUB_TIMEOUT="0"
+# CONFIG_JSON_OVERVIEW_IMAGE_INFO is not set
+# CONFIG_PACKAGE_dnsmasq is not set
+CONFIG_PACKAGE_dnsmasq-full=y
+CONFIG_PACKAGE_dnsmasq_full_auth=y
+CONFIG_PACKAGE_dnsmasq_full_conntrack=y
+CONFIG_PACKAGE_dnsmasq_full_dhcp=y
+CONFIG_PACKAGE_dnsmasq_full_nftset=y
+# CONFIG_PACKAGE_kmod-button-hotplug is not set
+# CONFIG_PACKAGE_kmod-input-core is not set
+CONFIG_PACKAGE_kmod-nf-conntrack-netlink=y
+CONFIG_PACKAGE_libnetfilter-conntrack=y
+CONFIG_PACKAGE_libnfnetlink=y
+# CONFIG_TARGET_ROOTFS_SQUASHFS is not set
+# CONFIG_PACKAGE_dnsmasq_full_dhcpv6 is not set
+# CONFIG_PACKAGE_dnsmasq_full_dnssec is not set
+# CONFIG_PACKAGE_dnsmasq_full_noid is not set
+# CONFIG_PACKAGE_dnsmasq_full_tftp is not set
+# CONFIG_PACKAGE_libgmp is not set
+# CONFIG_PACKAGE_libnettle is not set
