@@ -76,7 +76,7 @@ jobs:
         path: openwrt/diff.config
 
     - name: Delete workflow runs
-      uses: FunctionXJB/delete-workflow-runs@main
+      uses: Mattraks/delete-workflow-runs@main
       with:
         retain_days: 1
         keep_minimum_runs: 3
