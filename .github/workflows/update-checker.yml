@@ -31,6 +31,7 @@ jobs:
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH .
         echo "commitHash_Lede=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        echo "$(git rev-parse HEAD)"
 
     - name: Compare Commit Hash
       id: cacheHash
