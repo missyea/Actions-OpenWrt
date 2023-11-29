@@ -39,10 +39,6 @@ jobs:
         path: .commitHash
         key: HEAD-${{ steps.getHash.outputs.commitHash }}
 
-    - name: echo
-      run: |
-        echo "HEAD-${{ steps.getHash.outputs.commitHash }}"
-
     - name: Save New Commit Hash
       if: steps.cacheHash.outputs.cache-hit != 'true'
       run: |
