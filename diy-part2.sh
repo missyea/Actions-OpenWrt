@@ -10,10 +10,10 @@
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
 
-sed -i 's/192.168.1.1/10.10.10.254/g' package/base-files/files/bin/config_generate
-sed -i 's/192.168.*addr_offset.*1/10.10.$((addr_offset++)).254/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/172.16.0.9/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.*addr_offset.*1/172.16.$((addr_offset++)).9/g' package/base-files/files/bin/config_generate
 
-sed -i "/network.\$1.proto='static'/i\                                set network.\$1.gateway='10.10.10.10'" package/base-files/files/bin/config_generate
+# sed -i "/network.\$1.proto='static'/i\                                set network.\$1.gateway='10.10.10.10'" package/base-files/files/bin/config_generate
 
 sed -i "/timezone='UTC'/a\                set system.@system[-1].zonename='Asia/Shanghai'" package/base-files/files/bin/config_generate
 sed -i "s/timezone='UTC'/timezone='CST-8'/g" package/base-files/files/bin/config_generate
