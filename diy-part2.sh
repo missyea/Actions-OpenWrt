@@ -21,3 +21,6 @@ sed -i "s/timezone='UTC'/timezone='CST-8'/g" package/base-files/files/bin/config
 sed -i "/system.ntp.enable_server/a\                add_list system.ntp.server='ntp.aliyun.com'" package/base-files/files/bin/config_generate
 
 sed -i 's/root:/root:$1$nZL.pSU8$iINNlIkw.K6U5U6NH8BC31/' package/base-files/files/etc/shadow
+
+rm -rf feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 25.x feeds/packages/lang/golang
