@@ -53,19 +53,6 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
 
-    - name: Setup Go
-      uses: actions/setup-go@v6
-      with:
-        go-version: 'stable'
-        check-latest: true
-        cache: true
-
-    - name: Verify Go version
-      run: |
-        go version
-        go env GOROOT
-        go env GOPATH
-
     - name: Clone source code
       working-directory: /workdir
       run: |
