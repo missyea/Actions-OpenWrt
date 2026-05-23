@@ -23,4 +23,4 @@ sed -i "/system.ntp.enable_server/a\                add_list system.ntp.server='
 sed -i 's/root:/root:$1$nZL.pSU8$iINNlIkw.K6U5U6NH8BC31/' package/base-files/files/etc/shadow
 
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 25.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang feeds/packages/lang/golang
