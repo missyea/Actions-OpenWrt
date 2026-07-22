@@ -16,7 +16,6 @@ on:
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt
-  REPO_BRANCH: openwrt-25.12
   CONFIG_FILE: .diffconfig
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
@@ -57,7 +56,18 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        RELEASE_TAG=$(curl --fail --silent --show-error \
+          --header "Accept: application/vnd.github+json" \
+          https://api.github.com/repos/openwrt/openwrt/releases/latest \
+          | jq -r '.tag_name')
+
+        if [ -z "$RELEASE_TAG" ] || [ "$RELEASE_TAG" = "null" ]; then
+          echo "No stable OpenWrt release found" >&2
+          exit 1
+        fi
+
+        echo "Building OpenWrt release: $RELEASE_TAG"
+        git clone --depth 1 --branch "$RELEASE_TAG" $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
    
     - name: Cache

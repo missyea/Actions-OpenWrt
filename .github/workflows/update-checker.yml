@@ -12,8 +12,7 @@
 name: Update Checker
 
 env:
-  REPO_URL: https://github.com/openwrt/openwrt
-  REPO_BRANCH: openwrt-25.12
+  RELEASES_API_URL: https://api.github.com/repos/openwrt/openwrt/releases?per_page=100
 
 on:
   workflow_dispatch:
@@ -26,27 +25,41 @@ jobs:
 
     steps:
 
-    - name: Get Commit Hash
-      id: getHash
+    - name: Get Latest Stable Release
+      id: getRelease
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
-        git clone --depth 1 $REPO_URL -b $REPO_BRANCH .
-        echo "commitHash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        release_tag=$(curl --fail --silent --show-error \
+          --header "Accept: application/vnd.github+json" \
+          --header "Authorization: Bearer $GH_TOKEN" \
+          --header "X-GitHub-Api-Version: 2022-11-28" \
+          "$RELEASES_API_URL" \
+          | jq -r '[.[] | select(.draft == false and .prerelease == false)][0].tag_name')
 
-    - name: Compare Commit Hash
-      id: cacheHash
-      uses: actions/cache@main
+        if [ -z "$release_tag" ] || [ "$release_tag" = "null" ]; then
+          echo "No stable OpenWrt release found" >&2
+          exit 1
+        fi
+
+        echo "releaseTag=$release_tag" >> "$GITHUB_OUTPUT"
+        echo "Latest stable release: $release_tag"
+
+    - name: Compare Release Tag
+      id: cacheRelease
+      uses: actions/cache@v4
       with:
-        path: .commitHash
-        key: HEAD-${{ steps.getHash.outputs.commitHash }}
+        path: .releaseTag
+        key: RELEASE-${{ steps.getRelease.outputs.releaseTag }}
 
-    - name: Save New Commit Hash
-      if: steps.cacheHash.outputs.cache-hit != 'true'
+    - name: Save New Release Tag
+      if: steps.cacheRelease.outputs.cache-hit != 'true'
       run: |
-        echo ${{ steps.getHash.outputs.commitHash }} | tee .commitHash
+        echo "${{ steps.getRelease.outputs.releaseTag }}" | tee .releaseTag
 
     - name: Trigger build
-      if: steps.cacheHash.outputs.cache-hit != 'true'
-      uses: peter-evans/repository-dispatch@main
+      if: steps.cacheRelease.outputs.cache-hit != 'true'
+      uses: peter-evans/repository-dispatch@v3
       with:
         token: ${{ secrets.ACTIONS_TRIGGER_PAT }}
         event-type: Source Code Update
